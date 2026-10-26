@@ -83,6 +83,12 @@ Crea y configura los siguientes Security Groups:
 
 <img width="1020" height="773" alt="image" src="https://github.com/user-attachments/assets/dd5c5ff9-ea2d-44e1-8724-cbfcc36bca51" />
 
+### 3.3. `k3s-private` (Workers Backend Java y Backend BA)
+- **Inbound (Entrada):**
+  - `SSH` (TCP 22): Origen `sg-k3s-public` (salto SSH seguro desde el Master).
+  - `All Traffic` / Overlay K3s: Origen `10.0.0.0/16` (Flannel vxlan 8472, Kubelet 10250).
+- **Outbound (Salida):** Todo el tráfico a `0.0.0.0/0` (vía NAT Gateway).
+
 ### 3.4. `mongodb-ec2` (Instancia MongoDB Dedicada)
 - **Inbound (Entrada):**
   - `Custom TCP` (TCP 27017): Origen `sg-k3s-private` (o `10.0.10.0/24`). **Bloqueado para Internet.**
