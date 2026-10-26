@@ -138,6 +138,7 @@ Todas con **Ubuntu 24.04 LTS** o **Ubuntu 22.04 LTS**:
 
 
 #### Scrip
+```
 >
 -- =====================================================
 -- SCRIPT DE INICIALIZACIÓN SQL SERVER - BODEGA PEIRANO
@@ -459,7 +460,7 @@ rm /tmp/init-bodega.js
 echo "=== DESPLIEGUE FINALIZADO ==="
 
 >
-
+```
 
 
 ---
@@ -496,10 +497,10 @@ curl -sfL https://get.k3s.io | K3S_URL=https://<IP_PRIVADA_MASTER>:6443 K3S_TOKE
 ```
 
 OPCION RAPIDA DATOS DE USUARIO AWS  esto sirve para todos los backend privados tambien solo cambiar esta parte node-role=frontend-worker
-
+```
 #!/bin/bash
 curl -sfL https://get.k3s.io | K3S_URL=https://10.0.11.178:6443 K3S_TOKEN=K10532fc07783ccd8e3d80950a3429f6dd38b83400f2dd58de090b416fdeae2f77f::server:27e1ed16d5c95d39a4c6dbeabd7107ea sh -s - --node-name worker-frontend --node-label node-role=frontend-worker
-
+```
 
 
 ---
@@ -516,11 +517,10 @@ Ejecuta:
 curl -sfL https://get.k3s.io | K3S_URL=https://<IP_PRIVADA_MASTER>:6443 K3S_TOKEN=<TOKEN> sh -s - --node-name worker-backend-java
 
 
-MANERA RAPIDA PRO DATOS DE USUAARIO 
-
+```
+```MANERA RAPIDA PRO DATOS DE USUAARIO 
 #!/bin/bash
 curl -sfL https://get.k3s.io | K3S_URL=https://10.0.15.5:6443 K3S_TOKEN=K107ffd5d5086ca6d0c7507b4fca91b102096381933023d7d556544c132d239b952::server:0ae2ff09dfb48073c8a11331ce36a788 sh -s - --node-name worker-backend-java
-
 ```
 
 ```powershell
@@ -530,6 +530,7 @@ ssh -i "tu-llave.pem" -J ubuntu@<IP_PUBLICA_MASTER> ubuntu@<IP_PRIVADA_BACKEND_B
 Ejecuta:
 ```bash
 curl -sfL https://get.k3s.io | K3S_URL=https://<IP_PRIVADA_MASTER>:6443 K3S_TOKEN=<TOKEN> sh -s - --node-name worker-backend-ba
+```
 ```
 #!/bin/bash
 curl -sfL https://get.k3s.io | K3S_URL=https://10.0.15.5:6443 K3S_TOKEN=K107ffd5d5086ca6d0c7507b4fca91b102096381933023d7d556544c132d239b952::server:0ae2ff09dfb48073c8a11331ce36a788 sh -s - --node-name worker-backend-ba
