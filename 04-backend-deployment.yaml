@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: bodega-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      nodeSelector:
+        node-role: backend-worker
+      containers:
+      - name: spring-backend
+        image: jazett/bodega-backend-poliglota:latest
+        ports:
+        - containerPort: 8085
+        envFrom:
+        - configMapRef:
+            name: bodega-config
+        - secretRef:
+            name: bodega-secrets

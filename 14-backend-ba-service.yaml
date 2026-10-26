@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-ba-service
+  namespace: bodega-app
+spec:
+  type: ClusterIP
+  selector:
+    app: backend-ba
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

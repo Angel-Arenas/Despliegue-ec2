@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongodb-init-job
+  namespace: bodega-app
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: mongodb-init
+    spec:
+      nodeSelector:
+        node-role: db-worker
+      restartPolicy: OnFailure
+      containers:
+      - name: mongodb-init
+        image: jazett/ase251s4-db-mongodb-init
+        args:
+        - "reconcile"
+        env:
+        - name: MONGO_HOST
+          value: "mongodb-service"
+        - name: MONGO_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              name: bodega-secrets
+              key: MONGO_INITDB_ROOT_USERNAME
+        - name: MONGO_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bodega-secrets
+              key: MONGO_INITDB_ROOT_PASSWORD
+        - name: MONGO_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: bodega-config
+              key: MONGO_DATABASE

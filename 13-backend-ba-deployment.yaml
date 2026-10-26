@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-ba-deployment
+  namespace: bodega-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-ba
+  template:
+    metadata:
+      labels:
+        app: backend-ba
+    spec:
+      nodeSelector:
+        node-role: backend-ba-worker
+      containers:
+      - name: fastapi-backend-ba
+        image: jazett/bodega-backend-ba:latest
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: bodega-config
+        - secretRef:
+            name: bodega-secrets
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 20
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
