@@ -80,8 +80,7 @@ Crea y configura los siguientes Security Groups:
 
   - `All Traffic`: Origen `10.0.0.0/16` (comunicación interna entre nodos K3s).
 - **Outbound (Salida):** Todo el tráfico a `0.0.0.0/0`.
-<img width="1616" height="770" alt="image" src="https://github.com/user-attachments/assets/aa42c932-3ef8-416a-8c15-ef9c362318c5" />
-
+<img width="1027" height="778" alt="image" src="https://github.com/user-attachments/assets/3123a742-43ec-4ecc-bb5c-17c244e43477" />
 ### 3.3. `k3s-private` (Workers Backend Java y Backend BA)
 - **Inbound (Entrada):**
   - `SSH` (TCP 22): Origen `sg-k3s-public` (salto SSH seguro desde el Master).
