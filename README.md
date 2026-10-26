@@ -139,7 +139,7 @@ Todas con **Ubuntu 24.04 LTS** o **Ubuntu 22.04 LTS**:
 
 #### Scrip
 ```
->
+
 -- =====================================================
 -- SCRIPT DE INICIALIZACIÓN SQL SERVER - BODEGA PEIRANO
 -- Base de datos: BodegaPeiranoDBF
@@ -307,7 +307,7 @@ GO
 SELECT 'PROMOCION' AS Tabla, COUNT(*) AS Total FROM promocion
 UNION ALL SELECT 'PROMOCION_PRODUCTO', COUNT(*) FROM promocion_producto;
 GO
->
+```
 
 ## 🍃 5. Instalación y Configuración de MongoDB en la Instancia EC2 Dedicada
 
@@ -319,7 +319,7 @@ echo "=== DESPLIEGUE FINALIZADO ==="
 2. luego crear instancia. 
 
 #### Script 
->
+```
 #!/bin/bash
 # 0. Redirigir toda la salida a un log para poder depurar (en /var/log/user-data.log)
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
@@ -459,7 +459,7 @@ mongosh -u "admin" -p "Mongo12345!" --authenticationDatabase "admin" /tmp/init-b
 rm /tmp/init-bodega.js
 echo "=== DESPLIEGUE FINALIZADO ==="
 
->
+
 ```
 
 
