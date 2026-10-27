@@ -597,6 +597,7 @@ kubectl apply -f 07-frontend-service.yaml
 # ======================================================================
 # kubectl delete -f 04-backend-deployment.yaml -f 05-backend-service.yaml -f 13-backend-ba-deployment.yaml -f 14-backend-ba-service.yaml 
 # kubectl delete -f 06-frontend-deployment.yaml -f 07-frontend-service.yaml
+# kubectl delete namespace bodega-app
 
 
 # 4. Ingress (Opcional si usas ALB Controller nativo) ) (no aplicar el manifiesto no es necesario)
