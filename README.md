@@ -565,7 +565,10 @@ scp -i "C:\Users\user\Downloads\tu-llave.pem" -r "c:\Users\user\Desktop\manifest
 ```
 scp -i "C:\Users\user\Downloads\instancia1.pem" -r "c:\Users\user\Desktop\manifest-angel\manifest-ec2" ubuntu@44.192.63.188:~/manifest-ec2 
 
-
+o clonar el repositorio  
+```
+https://github.com/Angel-Arenas/Despliegue-ec2/edit/update-ec2-deployment/README.md
+```
 
 ---
 
@@ -586,15 +589,16 @@ kubectl apply -f 05-backend-service.yaml
 kubectl apply -f 13-backend-ba-deployment.yaml
 kubectl apply -f 14-backend-ba-service.yaml
 
-#En caso se necesite se pueden borrar los deplyments
-kubectl delete -f 04-backend-deployment.yaml -f 05-backend-service.yaml -f 13-backend-ba-deployment.yaml -f 14-backend-ba-service.yaml 
-kubectl delete -f 06-frontend-deployment.yaml -f 07-frontend-service.yaml 
-
-
-
 # 3. Frontend (NodePort para ALB)
 kubectl apply -f 06-frontend-deployment.yaml
 kubectl apply -f 07-frontend-service.yaml
+
+# ======================================================================
+# COMANDOS DE LIMPIEZA (Ejecutar solo si necesitas borrar componentes)
+# ======================================================================
+# kubectl delete -f 04-backend-deployment.yaml -f 05-backend-service.yaml -f 13-backend-ba-deployment.yaml -f 14-backend-ba-service.yaml 
+# kubectl delete -f 06-frontend-deployment.yaml -f 07-frontend-service.yaml
+
 
 # 4. Ingress (Opcional si usas ALB Controller nativo) ) (no aplicar el manifiesto no es necesario)
 kubectl apply -f 08-ingress-alb.yaml
