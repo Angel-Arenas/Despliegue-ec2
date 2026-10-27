@@ -523,12 +523,12 @@ curl -sfL https://get.k3s.io | K3S_URL=https://<IP_PRIVADA_MASTER>:6443 K3S_TOKE
 #!/bin/bash
 curl -sfL https://get.k3s.io | K3S_URL=https://10.0.15.5:6443 K3S_TOKEN=K107ffd5d5086ca6d0c7507b4fca91b102096381933023d7d556544c132d239b952::server:0ae2ff09dfb48073c8a11331ce36a788 sh -s - --node-name worker-backend-ba
 
----
+------------------------------------------------------------------------------------------------------------------v
 
 ### 6.4. Verificar y Etiquetar los Nodos (En el MASTER)
 Regresa a la terminal del **Master** y comprueba los nodos:
 
-```bash
+```
 kubectl get nodes
 ```
 
