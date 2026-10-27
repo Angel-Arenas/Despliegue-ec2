@@ -16,8 +16,8 @@ curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
    gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
    --dearmor --yes
 
-# Se detecta automáticamente la versión de Ubuntu (jammy o noble)
-UBUNTU_CODENAME=$(lsb_release -cs)
+# Forzar la versión a "jammy" (Ubuntu 22.04) para compatibilidad con MongoDB 7.0
+UBUNTU_CODENAME="jammy"
 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu $UBUNTU_CODENAME/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 
 apt-get update
@@ -102,16 +102,16 @@ db.producto.insertMany([
     { _id: 9, nombre: "Vino EUMA Blanco (Dulce) botella 750 ml.",     descripcion: "Vino blanco dulce",                codigo_barras_sku: "SKU-VIN-EUM-BLA", unidad_medida: "750ml", precio_unitario: 22.00, id_categoria: 2, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
     { _id: 10, nombre: "SANGRIA TINTA SANGRIA 1L.",   descripcion: "Sangría tinta lista para servir",  codigo_barras_sku: "SKU-SAN-TIN-1L", unidad_medida: "1L", precio_unitario: 12.00, id_categoria: 3, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
     { _id: 11, nombre: "SANGRIA BLANCA BLANGRIA 1L.", descripcion: "Sangría blanca lista para servir", codigo_barras_sku: "SKU-SAN-BLA-1L", unidad_medida: "1L", precio_unitario: 12.00, id_categoria: 3, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
-    { _id: 12, nombre: "Jarabe de Goma JAPI botella 750 ml.",       descripcion: "Jarabe de goma para coctelería",       codigo_barras_sku: "SKU-JAR-GOM-750", unidad_medida: "750ml", precio_unitario: 7.00, id_categoria: 4, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
+    { _id: 12, nombre: "Jarabe de Goma JAPI botella 750 ml.",       descripcion: "Jarabe de goma para coctelería",      codigo_barras_sku: "SKU-JAR-GOM-750", unidad_medida: "750ml", precio_unitario: 7.00, id_categoria: 4, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
     { _id: 13, nombre: "Jarabe de Granadina JAPI botella 750 ml.", descripcion: "Jarabe de granadina para coctelería", codigo_barras_sku: "SKU-JAR-GRA-750", unidad_medida: "750ml", precio_unitario: 8.00, id_categoria: 4, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null }
 ]);
 
 db.cliente.insertMany([
-    { _id: 1, tipo_documento: 'DNI', numero_documento: '72145678',  nombre: 'Sebastian',          apellido: 'Alvarez', correo: 'sebastian@mail.com',  telefono: '987654321', fecha_nacimiento: '1990-05-15', ubigeo_id: '150101', estado: true, fecha_creacion: ahora },
-    { _id: 2, tipo_documento: 'DNI', numero_documento: '45678912',  nombre: 'Angel',              apellido: 'Perez',   correo: 'angel.p@mail.com',    telefono: '999888777', fecha_nacimiento: '1985-08-20', ubigeo_id: '150102', estado: true, fecha_creacion: ahora },
-    { _id: 3, tipo_documento: 'CE',  numero_documento: '00123456',  nombre: 'Valeriano',          apellido: 'Gomez',   correo: 'valeriano@mail.com',  telefono: '912345678', fecha_nacimiento: '1982-12-10', ubigeo_id: '150103', estado: true, fecha_creacion: ahora },
-    { _id: 4, tipo_documento: 'DNI', numero_documento: '12345678',  nombre: 'Maria',              apellido: 'Sosa',    correo: 'maria.sosa@mail.com', telefono: '955444333', fecha_nacimiento: '1995-03-25', ubigeo_id: '150101', estado: true, fecha_creacion: ahora },
-    { _id: 5, tipo_documento: 'RUC', numero_documento: '20123456789', nombre: 'Distribuidora Asia', apellido: 'SAC',   correo: 'ventas@asiacorp.pe',  telefono: '944333222', fecha_nacimiento: '1990-01-01', ubigeo_id: '150102', estado: true, fecha_creacion: ahora }
+    { _id: 1, tipo_documento: 'DNI', numero_documento: '72145678',  nombre: 'Sebastian',          apellido: 'Alvarez', correo: 'sebastian@mail.com',   telefono: '987654321', fecha_nacimiento: '1990-05-15', ubigeo_id: '150101', estado: true, fecha_creacion: ahora },
+    { _id: 2, tipo_documento: 'DNI', numero_documento: '45678912',  nombre: 'Angel',              apellido: 'Perez',   correo: 'angel.p@mail.com',     telefono: '999888777', fecha_nacimiento: '1985-08-20', ubigeo_id: '150102', estado: true, fecha_creacion: ahora },
+    { _id: 3, tipo_documento: 'CE',  numero_documento: '00123456',  nombre: 'Valeriano',          apellido: 'Gomez',   correo: 'valeriano@mail.com',   telefono: '912345678', fecha_nacimiento: '1982-12-10', ubigeo_id: '150103', estado: true, fecha_creacion: ahora },
+    { _id: 4, tipo_documento: 'DNI', numero_documento: '12345678',  nombre: 'Maria',              apellido: 'Sosa',    correo: 'maria.sosa@mail.com',  telefono: '955444333', fecha_nacimiento: '1995-03-25', ubigeo_id: '150101', estado: true, fecha_creacion: ahora },
+    { _id: 5, tipo_documento: 'RUC', numero_documento: '20123456789', nombre: 'Distribuidora Asia', apellido: 'SAC',   correo: 'ventas@asiacorp.pe',   telefono: '944333222', fecha_nacimiento: '1990-01-01', ubigeo_id: '150102', estado: true, fecha_creacion: ahora }
 ]);
 
 db.almacen.insertMany([
@@ -122,11 +122,11 @@ db.almacen.insertMany([
 ]);
 
 db.metodo_pago.insertMany([
-    { _id: 1, nombre: 'Efectivo',          es_electronico: false, estado: true },
-    { _id: 2, nombre: 'Yape',              es_electronico: true,  estado: true },
-    { _id: 3, nombre: 'Plin',              es_electronico: true,  estado: true },
-    { _id: 4, nombre: 'Tarjeta Visa',      es_electronico: true,  estado: true },
-    { _id: 5, nombre: 'Transferencia BCP', es_electronico: true,  estado: true }
+    { _id: 1, nombre: 'Efectivo',           es_electronico: false, estado: true },
+    { _id: 2, nombre: 'Yape',               es_electronico: true,  estado: true },
+    { _id: 3, nombre: 'Plin',               es_electronico: true,  estado: true },
+    { _id: 4, nombre: 'Tarjeta Visa',       es_electronico: true,  estado: true },
+    { _id: 5, nombre: 'Transferencia BCP',  es_electronico: true,  estado: true }
 ]);
 
 print("✅ MongoDB: Datos maestros insertados correctamente.");
