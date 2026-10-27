@@ -323,7 +323,7 @@ echo "=== DESPLIEGUE FINALIZADO ==="
 ### Script de Despliegue de MongoDB (User Data)
 
 Al lanzar la instancia en AWS, pega el siguiente script en la sección **User data** (Detalles avanzados). Este script instalará MongoDB, configurará la seguridad y poblará la base de datos de Bodega Peirano automáticamente.
-
+USAR EL SCRIPT DEL ARCHIVO INITI-MONGOSHDB.SH (ESTE SCRIPT ES REFERENCIAL)
 ```bash
 #!/bin/bash
 # 0. Redirigir toda la salida a un log para poder depurar (en /var/log/user-data.log)
@@ -522,13 +522,12 @@ curl -sfL https://get.k3s.io | K3S_URL=https://<IP_PRIVADA_MASTER>:6443 K3S_TOKE
 ```
 #!/bin/bash
 curl -sfL https://get.k3s.io | K3S_URL=https://10.0.15.5:6443 K3S_TOKEN=K107ffd5d5086ca6d0c7507b4fca91b102096381933023d7d556544c132d239b952::server:0ae2ff09dfb48073c8a11331ce36a788 sh -s - --node-name worker-backend-ba
-
----
+```
 
 ### 6.4. Verificar y Etiquetar los Nodos (En el MASTER)
 Regresa a la terminal del **Master** y comprueba los nodos:
 
-```bash
+```
 kubectl get nodes
 ```
 
@@ -565,7 +564,10 @@ scp -i "C:\Users\user\Downloads\tu-llave.pem" -r "c:\Users\user\Desktop\manifest
 ```
 scp -i "C:\Users\user\Downloads\instancia1.pem" -r "c:\Users\user\Desktop\manifest-angel\manifest-ec2" ubuntu@44.192.63.188:~/manifest-ec2 
 
-
+o clonar el repositorio  
+```
+https://github.com/Angel-Arenas/Despliegue-ec2/edit/update-ec2-deployment/README.md
+```
 
 ---
 
@@ -586,15 +588,16 @@ kubectl apply -f 05-backend-service.yaml
 kubectl apply -f 13-backend-ba-deployment.yaml
 kubectl apply -f 14-backend-ba-service.yaml
 
-#En caso se necesite se pueden borrar los deplyments
-kubectl delete -f 04-backend-deployment.yaml -f 05-backend-service.yaml -f 13-backend-ba-deployment.yaml -f 14-backend-ba-service.yaml 
-kubectl delete -f 06-frontend-deployment.yaml -f 07-frontend-service.yaml 
-
-
-
 # 3. Frontend (NodePort para ALB)
 kubectl apply -f 06-frontend-deployment.yaml
 kubectl apply -f 07-frontend-service.yaml
+
+# ======================================================================
+# COMANDOS DE LIMPIEZA (Ejecutar solo si necesitas borrar componentes)
+# ======================================================================
+# kubectl delete -f 04-backend-deployment.yaml -f 05-backend-service.yaml -f 13-backend-ba-deployment.yaml -f 14-backend-ba-service.yaml 
+# kubectl delete -f 06-frontend-deployment.yaml -f 07-frontend-service.yaml
+
 
 # 4. Ingress (Opcional si usas ALB Controller nativo) ) (no aplicar el manifiesto no es necesario)
 kubectl apply -f 08-ingress-alb.yaml
