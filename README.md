@@ -364,6 +364,7 @@ EOF
 # 5. Configurar bindIp a 0.0.0.0 y activar autenticación
 sed -i 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/' /etc/mongod.conf
 
+# Importante: Aquí se usan espacios normales, no tabulaciones (requerido por YAML)
 cat >> /etc/mongod.conf <<EOF
 security:
   authorization: enabled
@@ -375,7 +376,8 @@ sleep 15
 
 # 7. Crear el script JS de inicialización de datos de la bodega
 cat << 'EOF_JS' > /tmp/init-bodega.js
-const db = db.getSiblingDB('BodegaPeiranoDB');
+// FIX: db ya existe de forma global, se reasigna sin 'const'
+db = db.getSiblingDB('BodegaPeiranoDB');
 
 db.ubigeo.deleteMany({});
 db.categoria.deleteMany({});
@@ -414,26 +416,26 @@ db.categoria.insertMany([
 
 db.producto.insertMany([
     { _id: 1, nombre: "PISCO PEIRANO PURO QUEBRANTA botella 750 ml.", descripcion: "Pisco puro quebranta artesanal", codigo_barras_sku: "7750123456789", unidad_medida: "750ml", precio_unitario: 30.00, id_categoria: 1, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
-    { _id: 2, nombre: "PISCO PEIRANO PURO ITALIA botella 750 ml.",    descripcion: "Pisco puro italia premium",       codigo_barras_sku: "7750987654321", unidad_medida: "750ml", precio_unitario: 30.00, id_categoria: 1, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
-    { _id: 3, nombre: "PISCO PEIRANO ACHOLADO botella 750 ml.",       descripcion: "Pisco acholado especial",         codigo_barras_sku: "7750223344556", unidad_medida: "750ml", precio_unitario: 30.00, id_categoria: 1, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
+    { _id: 2, nombre: "PISCO PEIRANO PURO ITALIA botella 750 ml.",    descripcion: "Pisco puro italia premium",        codigo_barras_sku: "7750987654321", unidad_medida: "750ml", precio_unitario: 30.00, id_categoria: 1, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
+    { _id: 3, nombre: "PISCO PEIRANO ACHOLADO botella 750 ml.",       descripcion: "Pisco acholado especial",          codigo_barras_sku: "7750223344556", unidad_medida: "750ml", precio_unitario: 30.00, id_categoria: 1, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
     { _id: 4, nombre: "PISCO PEIRANO PURO QUEBRANTA galon 4 Lt.",     descripcion: "Pisco quebranta galón",            codigo_barras_sku: "SKU-PIS-QUE-GAL", unidad_medida: "Galon 4L", precio_unitario: 120.00, id_categoria: 1, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
-    { _id: 5, nombre: "PISCO PEIRANO PURO ITALIA galon 4 Lt.",        descripcion: "Pisco italia galón",              codigo_barras_sku: "SKU-PIS-ITA-GAL", unidad_medida: "Galon 4L", precio_unitario: 120.00, id_categoria: 1, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
+    { _id: 5, nombre: "PISCO PEIRANO PURO ITALIA galon 4 Lt.",        descripcion: "Pisco italia galón",               codigo_barras_sku: "SKU-PIS-ITA-GAL", unidad_medida: "Galon 4L", precio_unitario: 120.00, id_categoria: 1, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
     { _id: 6, nombre: "PISCO PEIRANO ACHOLADO galon 4 Lt.",           descripcion: "Pisco acholado galón",             codigo_barras_sku: "SKU-PIS-ACH-GAL", unidad_medida: "Galon 4L", precio_unitario: 100.00, id_categoria: 1, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
-    { _id: 7, nombre: "Vino EUMA Tinto (Seco) botella 750 ml.",       descripcion: "Vino tinto seco",                 codigo_barras_sku: "SKU-VIN-EUM-TIN", unidad_medida: "750ml", precio_unitario: 22.00, id_categoria: 2, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
-    { _id: 8, nombre: "Vino EUMA Tinto (Semi Seco) botella 750 ml.",  descripcion: "Vino tinto semiseco",             codigo_barras_sku: "SKU-VIN-EUM-SEM", unidad_medida: "750ml", precio_unitario: 22.00, id_categoria: 2, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
-    { _id: 9, nombre: "Vino EUMA Blanco (Dulce) botella 750 ml.",     descripcion: "Vino blanco dulce",               codigo_barras_sku: "SKU-VIN-EUM-BLA", unidad_medida: "750ml", precio_unitario: 22.00, id_categoria: 2, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
+    { _id: 7, nombre: "Vino EUMA Tinto (Seco) botella 750 ml.",       descripcion: "Vino tinto seco",                  codigo_barras_sku: "SKU-VIN-EUM-TIN", unidad_medida: "750ml", precio_unitario: 22.00, id_categoria: 2, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
+    { _id: 8, nombre: "Vino EUMA Tinto (Semi Seco) botella 750 ml.",  descripcion: "Vino tinto semiseco",              codigo_barras_sku: "SKU-VIN-EUM-SEM", unidad_medida: "750ml", precio_unitario: 22.00, id_categoria: 2, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
+    { _id: 9, nombre: "Vino EUMA Blanco (Dulce) botella 750 ml.",     descripcion: "Vino blanco dulce",                codigo_barras_sku: "SKU-VIN-EUM-BLA", unidad_medida: "750ml", precio_unitario: 22.00, id_categoria: 2, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
     { _id: 10, nombre: "SANGRIA TINTA SANGRIA 1L.",   descripcion: "Sangría tinta lista para servir",  codigo_barras_sku: "SKU-SAN-TIN-1L", unidad_medida: "1L", precio_unitario: 12.00, id_categoria: 3, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
     { _id: 11, nombre: "SANGRIA BLANCA BLANGRIA 1L.", descripcion: "Sangría blanca lista para servir", codigo_barras_sku: "SKU-SAN-BLA-1L", unidad_medida: "1L", precio_unitario: 12.00, id_categoria: 3, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
-    { _id: 12, nombre: "Jarabe de Goma JAPI botella 750 ml.",      descripcion: "Jarabe de goma para coctelería",      codigo_barras_sku: "SKU-JAR-GOM-750", unidad_medida: "750ml", precio_unitario: 7.00, id_categoria: 4, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
+    { _id: 12, nombre: "Jarabe de Goma JAPI botella 750 ml.",       descripcion: "Jarabe de goma para coctelería",       codigo_barras_sku: "SKU-JAR-GOM-750", unidad_medida: "750ml", precio_unitario: 7.00, id_categoria: 4, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null },
     { _id: 13, nombre: "Jarabe de Granadina JAPI botella 750 ml.", descripcion: "Jarabe de granadina para coctelería", codigo_barras_sku: "SKU-JAR-GRA-750", unidad_medida: "750ml", precio_unitario: 8.00, id_categoria: 4, estado: true, fecha_creacion: ahora, fecha_actualizacion: null, fecha_eliminacion: null, fecha_restauracion: null }
 ]);
 
 db.cliente.insertMany([
-    { _id: 1, tipo_documento: 'DNI', numero_documento: '72145678',  nombre: 'Sebastian',          apellido: 'Alvarez', correo: 'sebastian@mail.com',   telefono: '987654321', fecha_nacimiento: '1990-05-15', ubigeo_id: '150101', estado: true, fecha_creacion: ahora },
-    { _id: 2, tipo_documento: 'DNI', numero_documento: '45678912',  nombre: 'Angel',              apellido: 'Perez',   correo: 'angel.p@mail.com',     telefono: '999888777', fecha_nacimiento: '1985-08-20', ubigeo_id: '150102', estado: true, fecha_creacion: ahora },
-    { _id: 3, tipo_documento: 'CE',  numero_documento: '00123456',  nombre: 'Valeriano',          apellido: 'Gomez',   correo: 'valeriano@mail.com',   telefono: '912345678', fecha_nacimiento: '1982-12-10', ubigeo_id: '150103', estado: true, fecha_creacion: ahora },
-    { _id: 4, tipo_documento: 'DNI', numero_documento: '12345678',  nombre: 'Maria',              apellido: 'Sosa',    correo: 'maria.sosa@mail.com',  telefono: '955444333', fecha_nacimiento: '1995-03-25', ubigeo_id: '150101', estado: true, fecha_creacion: ahora },
-    { _id: 5, tipo_documento: 'RUC', numero_documento: '20123456789', nombre: 'Distribuidora Asia', apellido: 'SAC',   correo: 'ventas@asiacorp.pe',   telefono: '944333222', fecha_nacimiento: '1990-01-01', ubigeo_id: '150102', estado: true, fecha_creacion: ahora }
+    { _id: 1, tipo_documento: 'DNI', numero_documento: '72145678',  nombre: 'Sebastian',          apellido: 'Alvarez', correo: 'sebastian@mail.com',  telefono: '987654321', fecha_nacimiento: '1990-05-15', ubigeo_id: '150101', estado: true, fecha_creacion: ahora },
+    { _id: 2, tipo_documento: 'DNI', numero_documento: '45678912',  nombre: 'Angel',              apellido: 'Perez',   correo: 'angel.p@mail.com',    telefono: '999888777', fecha_nacimiento: '1985-08-20', ubigeo_id: '150102', estado: true, fecha_creacion: ahora },
+    { _id: 3, tipo_documento: 'CE',  numero_documento: '00123456',  nombre: 'Valeriano',          apellido: 'Gomez',   correo: 'valeriano@mail.com',  telefono: '912345678', fecha_nacimiento: '1982-12-10', ubigeo_id: '150103', estado: true, fecha_creacion: ahora },
+    { _id: 4, tipo_documento: 'DNI', numero_documento: '12345678',  nombre: 'Maria',              apellido: 'Sosa',    correo: 'maria.sosa@mail.com', telefono: '955444333', fecha_nacimiento: '1995-03-25', ubigeo_id: '150101', estado: true, fecha_creacion: ahora },
+    { _id: 5, tipo_documento: 'RUC', numero_documento: '20123456789', nombre: 'Distribuidora Asia', apellido: 'SAC',   correo: 'ventas@asiacorp.pe',  telefono: '944333222', fecha_nacimiento: '1990-01-01', ubigeo_id: '150102', estado: true, fecha_creacion: ahora }
 ]);
 
 db.almacen.insertMany([
@@ -444,11 +446,11 @@ db.almacen.insertMany([
 ]);
 
 db.metodo_pago.insertMany([
-    { _id: 1, nombre: 'Efectivo',           es_electronico: false, estado: true },
-    { _id: 2, nombre: 'Yape',               es_electronico: true,  estado: true },
-    { _id: 3, nombre: 'Plin',               es_electronico: true,  estado: true },
-    { _id: 4, nombre: 'Tarjeta Visa',       es_electronico: true,  estado: true },
-    { _id: 5, nombre: 'Transferencia BCP',  es_electronico: true,  estado: true }
+    { _id: 1, nombre: 'Efectivo',          es_electronico: false, estado: true },
+    { _id: 2, nombre: 'Yape',              es_electronico: true,  estado: true },
+    { _id: 3, nombre: 'Plin',              es_electronico: true,  estado: true },
+    { _id: 4, nombre: 'Tarjeta Visa',      es_electronico: true,  estado: true },
+    { _id: 5, nombre: 'Transferencia BCP', es_electronico: true,  estado: true }
 ]);
 
 print("✅ MongoDB: Datos maestros insertados correctamente.");
