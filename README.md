@@ -774,3 +774,18 @@ Para que el ALB pueda entregar paquetes al NodePort de la instancia del Frontend
 Tunnel para backned analitico desde powershell 
 
 ssh -i "C:\Users\user\Downloads\master.pem" -L 8000:localhost:8000 ubuntu@<ip_master> "kubectl port-forward -n bodega-app svc/backend-ba-service 8000:8000"
+
+
+
+
+APLICARR PUERTOS NODEPORT PARA VISUALIZAR SWAGGER 
+
+kubectl patch svc backend-service -n bodega-app -p '{"spec": {"type": "NodePort"}}'
+kubectl patch svc backend-ba-service -n bodega-app -p '{"spec": {"type": "NodePort"}}'
+
+NO OLVIDAR AGGREAR ESSTA REGLA  
+30000 - 32767 0.0.0.0 EN EL PRIVATE 
+
+TAMBIEN hay que ahvir este puerto en el security privado 
+
+27017     0.0.0.0 
