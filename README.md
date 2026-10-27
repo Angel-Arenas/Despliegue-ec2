@@ -323,7 +323,7 @@ echo "=== DESPLIEGUE FINALIZADO ==="
 ### Script de Despliegue de MongoDB (User Data)
 
 Al lanzar la instancia en AWS, pega el siguiente script en la sección **User data** (Detalles avanzados). Este script instalará MongoDB, configurará la seguridad y poblará la base de datos de Bodega Peirano automáticamente.
-
+USAR EL SCRIPT DEL ARCHIVO INITI-MONGOSHDB.SH (ESTE SCRIPT ES REFERENCIAL)
 ```bash
 #!/bin/bash
 # 0. Redirigir toda la salida a un log para poder depurar (en /var/log/user-data.log)
