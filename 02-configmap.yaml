@@ -15,10 +15,10 @@ data:
   # ==========================================
   # SQL SERVER
   # ==========================================
-  SQL_SERVER_HOST: "database-1.cdf3hrurvewl.us-east-1.rds.amazonaws.com" # cambiar por el endpoint de tu instancia RDS
+  SQL_SERVER_HOST: "<ip_privada_rds>" # cambiar por la ip privada de tu instancia RDS
   SQL_SERVER_PORT: "1433"
   SQL_SERVER_DB: "BodegaPeiranoDBF"
-  SQL_URL: "jdbc:sqlserver://database-1.cdf3hrurvewl.us-east-1.rds.amazonaws.com:1433;databaseName=BodegaPeiranoDBF;encrypt=true;trustServerCertificate=true"
+  SQL_URL: "jdbc:sqlserver://<ip_privada_rds>:1433;databaseName=BodegaPeiranoDBF;encrypt=true;trustServerCertificate=true"
   #Cambiar tambien en SQL_URL el endopoint
   # ==========================================
   # MONGODB (Instancia EC2 dedicada en Subred Privada)
@@ -32,6 +32,6 @@ data:
   # ==========================================
   # FRONTEND CONFIG (DNS interno en K8s FQDN)
   # ==========================================
-  VITE_API_URL: "http://backend-service:8085"
-  VITE_API_BA_URL: "http://backend-ba-service:8000"
+  VITE_API_URL: "http://10.43.90.74:8085"
+  VITE_API_BA_URL: "http://10.43.35.82:8000"
 
