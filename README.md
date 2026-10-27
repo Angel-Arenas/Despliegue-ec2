@@ -489,6 +489,8 @@ sudo cat /var/lib/rancher/k3s/server/node-token
 ---
 
 ### 6.2. En el Worker Frontend (Público)
+| **EC2-Worker-Frontend** | `subnet-public-1a` | **Sí** | `t3.medium` | 20 GB | `sg-k3s-public` | K3s Agent (Frontend) |
+
 Conéctate al Worker Frontend por SSH directo:
 ```powershell
 ssh -i "C:\Users\user\Downloads\tu-llave.pem" ubuntu@<IP_PUBLICA_FRONTEND>
@@ -510,6 +512,7 @@ curl -sfL https://get.k3s.io | K3S_URL=https://10.0.11.178:6443 K3S_TOKEN=K10532
 ### 6.3. En los Workers Privados (Backend Java y Backend BA)
 Conéctate por SSH saltando desde el Master a cada IP privada:
 
+| **EC2-Worker-Backend-Java** | `subnet-private-1a` | **No** | `t3.medium` | 20 GB | `sg-k3s-private` | K3s Agent (Spring Boot) |
 ```powershell
 # Conectar a BACKEND JAVA:
 ssh -i "tu-llave.pem" -J ubuntu@<IP_PUBLICA_MASTER> ubuntu@<IP_PRIVADA_BACKEND_JAVA>
@@ -524,6 +527,8 @@ curl -sfL https://get.k3s.io | K3S_URL=https://<IP_PRIVADA_MASTER>:6443 K3S_TOKE
 #!/bin/bash
 curl -sfL https://get.k3s.io | K3S_URL=https://10.0.15.5:6443 K3S_TOKEN=K107ffd5d5086ca6d0c7507b4fca91b102096381933023d7d556544c132d239b952::server:0ae2ff09dfb48073c8a11331ce36a788 sh -s - --node-name worker-backend-java
 ```
+
+| **EC2-Worker-Backend-BA** | `subnet-private-1a` | **No** | `t3.medium` | 20 GB | `sg-k3s-private` | K3s Agent (FastAPI) |
 
 ```powershell
 # Conectar BACKEND BA:
@@ -562,7 +567,7 @@ kubectl get nodes -L node-role
 
 ### 7.1. Actualizar la IP de MongoDB en `02-configmap.yaml`
 En el archivo `02-configmap.yaml`, reemplaza `IP_PRIVADA_EC2_MONGODB` por la IP privada real de tu EC2 de MongoDB (ej. `10.0.10.50`):
-
+, Tambien configurar los secrtes con el endpoitn de rds  y mongo con su ip privada , tambien en el configmap poner los endpoint de la rds 
 ```yaml
   MONGO_HOST: "10.0.10.50"
   MONGO_PORT: "27017"
