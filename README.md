@@ -81,6 +81,8 @@ Crea y configura los siguientes Security Groups:
   - `All Traffic`: Origen `10.0.0.0/16` (comunicación interna entre nodos K3s).
 - **Outbound (Salida):** Todo el tráfico a `0.0.0.0/0`.
 
+<img width="1020" height="773" alt="image" src="https://github.com/user-attachments/assets/dd5c5ff9-ea2d-44e1-8724-cbfcc36bca51" />
+
 ### 3.3. `k3s-private` (Workers Backend Java y Backend BA)
 - **Inbound (Entrada):**
   - `SSH` (TCP 22): Origen `sg-k3s-public` (salto SSH seguro desde el Master).
@@ -138,7 +140,8 @@ Todas con **Ubuntu 24.04 LTS** o **Ubuntu 22.04 LTS**:
 
 
 #### Scrip
->
+```
+
 -- =====================================================
 -- SCRIPT DE INICIALIZACIÓN SQL SERVER - BODEGA PEIRANO
 -- Base de datos: BodegaPeiranoDBF
@@ -306,7 +309,7 @@ GO
 SELECT 'PROMOCION' AS Tabla, COUNT(*) AS Total FROM promocion
 UNION ALL SELECT 'PROMOCION_PRODUCTO', COUNT(*) FROM promocion_producto;
 GO
->
+```
 
 ## 🍃 5. Instalación y Configuración de MongoDB en la Instancia EC2 Dedicada
 
@@ -318,7 +321,7 @@ echo "=== DESPLIEGUE FINALIZADO ==="
 2. luego crear instancia. 
 
 #### Script 
->
+```
 #!/bin/bash
 # 0. Redirigir toda la salida a un log para poder depurar (en /var/log/user-data.log)
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
@@ -458,8 +461,8 @@ mongosh -u "admin" -p "Mongo12345!" --authenticationDatabase "admin" /tmp/init-b
 rm /tmp/init-bodega.js
 echo "=== DESPLIEGUE FINALIZADO ==="
 
->
 
+```
 
 
 ---
@@ -496,10 +499,10 @@ curl -sfL https://get.k3s.io | K3S_URL=https://<IP_PRIVADA_MASTER>:6443 K3S_TOKE
 ```
 
 OPCION RAPIDA DATOS DE USUARIO AWS  esto sirve para todos los backend privados tambien solo cambiar esta parte node-role=frontend-worker
-
+```
 #!/bin/bash
 curl -sfL https://get.k3s.io | K3S_URL=https://10.0.11.178:6443 K3S_TOKEN=K10532fc07783ccd8e3d80950a3429f6dd38b83400f2dd58de090b416fdeae2f77f::server:27e1ed16d5c95d39a4c6dbeabd7107ea sh -s - --node-name worker-frontend --node-label node-role=frontend-worker
-
+```
 
 
 ---
@@ -516,11 +519,10 @@ Ejecuta:
 curl -sfL https://get.k3s.io | K3S_URL=https://<IP_PRIVADA_MASTER>:6443 K3S_TOKEN=<TOKEN> sh -s - --node-name worker-backend-java
 
 
-MANERA RAPIDA PRO DATOS DE USUAARIO 
-
+```
+```MANERA RAPIDA PRO DATOS DE USUAARIO 
 #!/bin/bash
 curl -sfL https://get.k3s.io | K3S_URL=https://10.0.15.5:6443 K3S_TOKEN=K107ffd5d5086ca6d0c7507b4fca91b102096381933023d7d556544c132d239b952::server:0ae2ff09dfb48073c8a11331ce36a788 sh -s - --node-name worker-backend-java
-
 ```
 
 ```powershell
@@ -530,6 +532,7 @@ ssh -i "tu-llave.pem" -J ubuntu@<IP_PUBLICA_MASTER> ubuntu@<IP_PRIVADA_BACKEND_B
 Ejecuta:
 ```bash
 curl -sfL https://get.k3s.io | K3S_URL=https://<IP_PRIVADA_MASTER>:6443 K3S_TOKEN=<TOKEN> sh -s - --node-name worker-backend-ba
+```
 ```
 #!/bin/bash
 curl -sfL https://get.k3s.io | K3S_URL=https://10.0.15.5:6443 K3S_TOKEN=K107ffd5d5086ca6d0c7507b4fca91b102096381933023d7d556544c132d239b952::server:0ae2ff09dfb48073c8a11331ce36a788 sh -s - --node-name worker-backend-ba
