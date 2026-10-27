@@ -334,13 +334,15 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1 || fuser /var/lib/apt/lists/lock 
 
 # 2. Instalar dependencias y llave de MongoDB 7.0
 apt-get update
-apt-get install -y gnupg curl
+apt-get install -y gnupg curl lsb-release
 
 curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
    gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
    --dearmor --yes
 
-echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+# Se detecta automáticamente la versión de Ubuntu (jammy o noble)
+UBUNTU_CODENAME=$(lsb_release -cs)
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu $UBUNTU_CODENAME/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 
 apt-get update
 apt-get install -y mongodb-org
@@ -364,7 +366,6 @@ EOF
 # 5. Configurar bindIp a 0.0.0.0 y activar autenticación
 sed -i 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/' /etc/mongod.conf
 
-# Importante: Aquí se usan espacios normales, no tabulaciones (requerido por YAML)
 cat >> /etc/mongod.conf <<EOF
 security:
   authorization: enabled
@@ -376,7 +377,6 @@ sleep 15
 
 # 7. Crear el script JS de inicialización de datos de la bodega
 cat << 'EOF_JS' > /tmp/init-bodega.js
-// FIX: db ya existe de forma global, se reasigna sin 'const'
 db = db.getSiblingDB('BodegaPeiranoDB');
 
 db.ubigeo.deleteMany({});
@@ -462,7 +462,6 @@ mongosh -u "admin" -p "Mongo12345!" --authenticationDatabase "admin" /tmp/init-b
 # 9. Limpiar el script temporal por seguridad
 rm /tmp/init-bodega.js
 echo "=== DESPLIEGUE FINALIZADO ==="
-
 
 ```
 
