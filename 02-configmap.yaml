@@ -32,6 +32,6 @@ data:
   # ==========================================
   # FRONTEND CONFIG (DNS interno en K8s FQDN)
   # ==========================================
-  VITE_API_URL: "http://backend-service.bodega-app.svc.cluster.local:8085"
-  VITE_API_BA_URL: "http://backend-ba-service.bodega-app.svc.cluster.local:8000"
+  VITE_API_URL: "http://backend-service:8085"
+  VITE_API_BA_URL: "http://backend-ba-service:8000"
 
