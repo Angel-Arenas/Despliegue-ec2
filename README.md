@@ -320,8 +320,11 @@ GO
 echo "=== DESPLIEGUE FINALIZADO ==="   
 2. luego crear instancia. 
 
-#### Script 
-```
+### Script de Despliegue de MongoDB (User Data)
+
+Al lanzar la instancia en AWS, pega el siguiente script en la sección **User data** (Detalles avanzados). Este script instalará MongoDB, configurará la seguridad y poblará la base de datos de Bodega Peirano automáticamente.
+
+```bash
 #!/bin/bash
 # 0. Redirigir toda la salida a un log para poder depurar (en /var/log/user-data.log)
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
@@ -336,13 +339,13 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1 || fuser /var/lib/apt/lists/lock 
 apt-get update
 apt-get install -y gnupg curl lsb-release
 
-curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc | \
+curl -fsSL [https://www.mongodb.org/static/pgp/server-7.0.asc](https://www.mongodb.org/static/pgp/server-7.0.asc) | \
    gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg \
    --dearmor --yes
 
-# Se detecta automáticamente la versión de Ubuntu (jammy o noble)
+# Se detecta automáticamente la versión de Ubuntu (jammy, noble o resolute)
 UBUNTU_CODENAME=$(lsb_release -cs)
-echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu $UBUNTU_CODENAME/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] [https://repo.mongodb.org/apt/ubuntu](https://repo.mongodb.org/apt/ubuntu) $UBUNTU_CODENAME/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 
 apt-get update
 apt-get install -y mongodb-org
@@ -354,29 +357,7 @@ systemctl start mongod
 sleep 15
 
 # 4. Crear usuario administrador
-mongosh <<EOF
-use admin
-db.createUser({
-  user: "admin",
-  pwd: "Mongo12345!",
-  roles: [ { role: "root", db: "admin" } ]
-})
-EOF
-
-# 5. Configurar bindIp a 0.0.0.0 y activar autenticación
-sed -i 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/' /etc/mongod.conf
-
-cat >> /etc/mongod.conf <<EOF
-security:
-  authorization: enabled
-EOF
-
-# 6. Reiniciar MongoDB para aplicar la seguridad
-systemctl restart mongod
-sleep 15
-
-# 7. Crear el script JS de inicialización de datos de la bodega
-cat << 'EOF_JS' > /tmp/init-bodega.js
+mongosh <<EOF "Mongo12345!", "admin" "admin", "root", # 's/bindIp: -i /etc/mongod.conf 0.0.0.0 0.0.0.0/' 127.0.0.1/bindIp: 5. Configurar EOF [ ] a activar admin autenticación bindIp cat db.createUser({ db: pwd: role: roles: sed use user: y { } })>> /etc/mongod.conf <<EOF # 'EOF_JS' 15 6. 7. << Crear EOF JS MongoDB Reiniciar aplicar authorization: bodega cat datos de el enabled inicialización la mongod para restart script security: seguridad sleep systemctl> /tmp/init-bodega.js
 db = db.getSiblingDB('BodegaPeiranoDB');
 
 db.ubigeo.deleteMany({});
@@ -462,7 +443,6 @@ mongosh -u "admin" -p "Mongo12345!" --authenticationDatabase "admin" /tmp/init-b
 # 9. Limpiar el script temporal por seguridad
 rm /tmp/init-bodega.js
 echo "=== DESPLIEGUE FINALIZADO ==="
-
 ```
 
 
